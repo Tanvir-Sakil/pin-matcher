@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pin Generator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="pin-generator half-width">
+                    <input id="input-area1" class="form-control" type="text">
+                    <button id= "generate-pin" class="generate-btn">Generate Pin</button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-section half-width">
+                    <input id="input-area2" class="form-control" type="text">
+                    <div class="numbers">
+                        <div class="calc-body">
+                            <div class="calc-button-row">
+                              <div id="7"class="button">7</div>
+                              <div id="8"class="button">8</div>
+                              <div id="9"class="button">9</div>
+                            </div>
+                            <div class="calc-button-row">
+                              <div id="4"class="button">4</div>
+                              <div id= "5" class="button">5</div>
+                              <div id= "6" class="button">6</div>
+                            </div>
+                            <div class="calc-button-row">
+                              <div id="1"class="button">1</div>
+                              <div id ="2" class="button">2</div>
+                              <div id="3" class="button">3</div>
+                            </div>
+                            <div class="calc-button-row">
+                                <div id="<" class="button"><</div>
+                                <div id= "0" class="button">0</div>
+                                <div id ="C" class="button">C</div>
+                            </div>
+                            <div>
+                                <button type="submit" id="submit" class="submit-btn">Submit</button>
+                                <p id ="left-outer" class="action-left"><span id ="left-inner">3</span> try left</p>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="notify-section">
+            <p id= "non-match" class="notify">❌ Pin Didn't Match, Please try again</p>
+            <p id= "match" class="notify">✅ Pin Matched... Secret door is opening for you</p>
+        </div>
+    </div>
+    <script>
+        const generatePin = document.getElementById("generate-pin");
+        generatePin.addEventListener("click",function(){
+            let pin = Math.random()*10000 + "";
+            pin =pin.split('.');
+            if(pin[0].length<4)
+            {
+                while(pin[0].length<4)
+                {
+                    pin = Math.random()*10000 + "";
+                    pin =pin.split('.');
+                }
+            }
+            document.getElementById("input-area1").value=pin[0];    
+        });
+
+        var number = document.getElementsByClassName("button");
+          for(var i =0;i<number.length;i++){
+          number[i].addEventListener('click',function()
+         {
+		//    var output=reverseNumberFormat(getOutput());
+		// if(output!=NaN){ //if output is a number
+		// 	output=output+this.id;
+        // 	printOutput(output);
+        var number1 = this.id;
+        const print = document.getElementById(number1).innerText;
+        var print1 =document.getElementById("input-area2").value+=print;
+        document.getElementById("input-area2").value=print1;
+           });
+          }
+        
+        const submit =document.getElementById("submit");
+        submit.addEventListener("click",function(){
+         if(document.getElementById("input-area2").value==document.getElementById("input-area1").value)
+         {
+             const match =document.getElementById("match");
+             match.style.background= "red";
+             match.style.display="block";
+
+             const nonMatch = document.getElementById("non-match");
+             nonMatch.style.display ="none";
+         }
+
+         else
+         {
+            const nonMatch =document.getElementById("non-match");
+             nonMatch.style.background= "red";
+
+             const match = document.getElementById("match");
+             match.style.display ="none";
+
+             let left =document.getElementById("left-inner").innerText;
+             left--;
+
+             if(left<=0)
+             {
+                 left =0;
+                 document.getElementById("left-outer").innerText="Please reset";
+
+             }
+             else 
+             {
+             document.getElementById("left-inner").innerText = left;
+             }
+         }
+         document.getElementById("input-area2").value = "";
+
+        });
+    </script>
+</body>
+</html>
